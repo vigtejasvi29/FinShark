@@ -11,7 +11,7 @@ const Search: React.FC<Props> = ({onClick, search, handleChange}: Props) => {
   return (
     <div> 
         <input value={search} onChange={(e) => handleChange(e)} />
-        <button onClick={(e)=> onClick(e)}>Click me sucker</button> 
+        <button onClick={(e)=> onClick(e)}>Search Results</button> 
     </div>
   )
 }
