@@ -6,6 +6,7 @@ import { CompanySearch } from './company';
 import './App.css';
 import { searchCompanies } from './api';
 import ListPortfolio from './Components/Portfolio/ListPortfolio/ListPortfolio';
+import Navbar from './Components/Navbar/Navbar';
 
 function App() {
   const [search, setSearch] = useState<string>("");
@@ -20,8 +21,18 @@ function App() {
 
   const onPortfolioCreate = (e: any) => {
     e.preventDefault();
+    const exists = portfolioValues.find((value) => value === e.target[0].value);
+    if (exists) return;
     const updatedPortfolio = [...portfolioValues, e.target[0].value];
     setPortfolioValues(updatedPortfolio);
+  }
+
+  const onPortfolioDelete = (e: any) => {
+    e.preventDefault();
+    const removed = portfolioValues.filter((value) => {
+      return value !== e.target[0].value;
+    });
+    setPortfolioValues(removed);
   }
 
   const onClick = async (e: SyntheticEvent) => {
@@ -34,9 +45,10 @@ function App() {
   }
   return (
     <div className="App">
+      <Navbar />
       <Search search={search} onClick={onClick} handleChange={handleChange} />
       { serverError && <h1>{serverError}</h1> }
-      <ListPortfolio portfolioValues={portfolioValues}/>
+      <ListPortfolio portfolioValues={portfolioValues} onPortfolioDelete={onPortfolioDelete}/>
       <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate}/>
     </div>
   );
